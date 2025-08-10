@@ -1,6 +1,6 @@
 # discord-info-lookup
 
-This package utilises the Discord API to retrieve information about users and guilds using the user's or guild's ID. This package also utilises `node-cache` as a way to cache users and guilds to reduce the calls made to the Discord API. Make sure to install the package using `npm` or `bun`. Made because I'm unsure if there's an actual package to do this and I can't be assed to look it up.
+This package utilises the Discord API to retrieve information about users and guilds using the user's or guild's ID. This package also has a function to cache the data for 1 hour to reduce API calls made to the Discord API. Made because I'm unsure if there's an actual package to do this and I can't be assed to look it up.
 
 ## Installation
 
