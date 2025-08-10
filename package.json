@@ -1,5 +1,8 @@
 {
   "name": "discord-info-lookup",
+  "description": "A discord info lookup tool for discord users and guilds.",
+  "version": "1.0.0",
+  "license": "MIT",
   "module": "index.js",
   "type": "module",
   "devDependencies": {
