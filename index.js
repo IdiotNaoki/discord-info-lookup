@@ -3,6 +3,6 @@ const { getUser } = require("./lib/getUser");
 const { getGuild } = require("./lib/getGuild");
 
 module.exports = {
-    getUser,
-    getGuild
-}
+  getUser,
+  getGuild,
+};
