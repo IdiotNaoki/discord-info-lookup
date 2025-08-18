@@ -27,3 +27,6 @@ const guild = await getGuild('123456789012345678');
 console.log(user);
 console.log(guild);
 ```
+
+## Extra
+Recently, added a part in the code to check whether if the string passed only contains numbers and will return an error if it doesn't. No errors will be thrown if the string only contains numbers. But if you pass a string that contains non-numbers, for example, "123abc", an error will be thrown. There's probably a better way to do this check but this works fine for now.
