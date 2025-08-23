@@ -20,6 +20,8 @@ bun install discord-info-lookup
 
 ```js
 const { getUser, getGuild } = require('discord-info-lookup');
+// or
+import { getUser, getGuild } from 'discord-info-lookup';
 
 const userInfo = await getUser('123456789012345678');
 const guildInfo = await getGuild('123456789012345678');
