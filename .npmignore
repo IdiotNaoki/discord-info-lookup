@@ -1,2 +1,5 @@
+.git
+src/
 node_modules/
-.github/
+*.ts
+*.log
