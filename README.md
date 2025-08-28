@@ -23,7 +23,7 @@ const { getUser, getGuild } = require('discord-info-lookup');
 // or
 import { getUser, getGuild } from 'discord-info-lookup';
 
-const userInfo = await getUser('123456789012345678');
+const userInfo = await getUser('123456789012345678', yourToken);
 const guildInfo = await getGuild('123456789012345678');
 
 console.log(userInfo); // { id: 123456789012, username: "username", ...}
@@ -34,7 +34,7 @@ console.log(guildInfo); // { id: 123456789012, name: "guild name", ...}
 
 - The output of both functions are in JSON format for easier parsing and the output is cached for 1 hour to reduce API calls made to the Discord API. The cache is reset everytime your app starts because the `node-cache` package stores the cache in memory. There shouldn't be any performance implications unless you fetch bazillions (not tested) of user/guilds in a short period of time.
 
-- For now, this package (only `getUser()` function) fetches your token by going through `process.env.TOKEN`. It's used as a form of authorization to the Discord API to retrieve information. Don't worry, the token is not being stored nor sent anywhere. I will probably find a better way to fetch the token in the future.
+- This package (only `getUser()`) checks token by either going through the `process.env.TOKEN` variable or the optional `accessToken` parameter. You can pass your token as a string into the `accessToken` parameter, for example: `getUser('123456789012345678', 'token')`. Not very safe, but it works.
 
 - If you by any chance inputted anything that is not a number into either `getUser()` or `getGuild()`, it will throw an error telling you that numbers were expected. It may be a bit of a problem, but I don't want to make it too complicated. Do make sure the input contains only number in a string format though.
 

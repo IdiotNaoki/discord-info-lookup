@@ -1,5 +1,5 @@
-export const timeConverter = (dateStr) => {
-  const date = new Date(dateStr);
+export const timeConverter = (dateInput: string | Date): string => {
+  const date = dateInput instanceof Date ? dateInput : new Date(dateInput);
 
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const months = [
@@ -21,12 +21,9 @@ export const timeConverter = (dateStr) => {
   const day = String(date.getUTCDate()).padStart(2, "0");
   const monthName = months[date.getUTCMonth()];
   const year = date.getUTCFullYear();
-
   const hours = String(date.getUTCHours()).padStart(2, "0");
   const minutes = String(date.getUTCMinutes()).padStart(2, "0");
   const seconds = String(date.getUTCSeconds()).padStart(2, "0");
 
-  const formatted = `${dayName}, ${day} ${monthName} ${year}, ${hours}:${minutes}:${seconds}`;
-
-  return formatted;
+  return `${dayName}, ${day} ${monthName} ${year}, ${hours}:${minutes}:${seconds}`;
 };

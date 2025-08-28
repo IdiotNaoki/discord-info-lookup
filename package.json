@@ -1,18 +1,30 @@
 {
   "name": "discord-info-lookup",
   "description": "A discord info lookup tool for discord users and guilds.",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "license": "MIT",
-  "module": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/IdiotNaoki/discord-info-lookup"
+    "url": "git+https://github.com/IdiotNaoki/discord-info-lookup"
   },
   "bugs": {
     "url": "https://github.com/IdiotNaoki/discord-info-lookup/issues"
   },
-  "keywords": ["discord", "discord api", "discord info lookup"],
+  "keywords": [
+    "discord",
+    "discord api",
+    "discord info lookup"
+  ],
   "devDependencies": {
     "@types/bun": "latest"
   },
