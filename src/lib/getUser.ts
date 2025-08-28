@@ -1,7 +1,7 @@
 import NodeCache from "node-cache";
-import { USER_FLAGS, Flag } from "../funcs/Constants";
-import { snowflakeToDate } from "../funcs/snowflakeToDate";
-import { timeConverter } from "../funcs/timeConverter";
+import { USER_FLAGS, Flag } from "../funcs/Constants.js";
+import { snowflakeToDate } from "../funcs/snowflakeToDate.js";
+import { timeConverter } from "../funcs/timeConverter.js";
 
 export interface Avatar {
   id: string | null;
