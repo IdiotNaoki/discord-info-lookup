@@ -3,27 +3,38 @@ import { USER_FLAGS, Flag } from "../funcs/Constants";
 import { snowflakeToDate } from "../funcs/snowflakeToDate";
 import { timeConverter } from "../funcs/timeConverter";
 
+export interface Avatar {
+  id: string | null;
+  link: string | null;
+  is_animated: boolean;
+}
+
+export interface Banner {
+  id: string | null;
+  link: string | null;
+  is_animated: boolean;
+  color?: number | null;
+}
+
+export interface Clan {
+  identity_guild_id?: string;
+  identity_enabled?: boolean;
+  tag: string;
+  badge?: string;
+}
+
 export interface UserOutput {
   id: string;
   username: string;
   created_at: string;
-  avatar: {
-    id: string | null;
-    link: string | null;
-    is_animated: boolean;
-  };
+  avatar: Avatar | null;
   avatar_decoration?: unknown;
   badges: string[];
   premium_type: string;
   accent_color?: number | null;
   global_name?: string | null;
-  banner?: {
-    id: string | null;
-    link: string | null;
-    is_animated: boolean;
-    color?: number | null;
-  };
-  clan?: string | null;
+  banner?: Banner | null;
+  clan?: Clan | null;
   raw: any;
 }
 
@@ -74,32 +85,45 @@ export async function getUser(
     const avatarLink = json.avatar
       ? `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}?size=480`
       : null;
+
     const bannerLink = json.banner
       ? `https://cdn.discordapp.com/banners/${json.id}/${json.banner}?size=480`
       : null;
+
     const createdDate = snowflakeToDate(json.id);
 
     const output: UserOutput = {
       id: json.id,
       username: json.username,
       created_at: timeConverter(createdDate),
-      avatar: {
-        id: json.avatar,
-        link: avatarLink,
-        is_animated: json.avatar?.startsWith("a_") ?? false,
-      },
+      avatar: json.avatar
+        ? {
+            id: json.avatar,
+            link: avatarLink,
+            is_animated: json.avatar?.startsWith("a_") ?? false,
+          }
+        : null,
       avatar_decoration: json.avatar_decoration_data,
       badges: publicFlags,
       premium_type: premiumMap[Number(json.premium_type)] ?? "None",
       accent_color: json.accent_color ?? null,
       global_name: json.global_name ?? null,
-      banner: {
-        id: json.banner,
-        link: bannerLink,
-        is_animated: json.banner?.startsWith("a_") ?? false,
-        color: json.banner_color ?? null,
-      },
-      clan: json.clan ?? null,
+      banner: json.banner
+        ? {
+            id: json.banner,
+            link: bannerLink,
+            is_animated: json.banner?.startsWith("a_") ?? false,
+            color: json.banner_color ?? null,
+          }
+        : null,
+      clan: json.clan
+        ? {
+            identity_guild_id: json.clan.identity_guild_id,
+            identity_enabled: json.clan.identity_enabled,
+            tag: json.clan.tag,
+            badge: json.clan.badge,
+          }
+        : null,
       raw: json,
     };
 
