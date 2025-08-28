@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "declaration": true,
-    "outDir": "dist",
-    "esModuleInterop": true,
+    "target": "ES2020",                  // Modern JS target
+    "module": "CommonJS",                // CommonJS for npm usage
+    "declaration": true,                 // Generate .d.ts type files
+    "outDir": "./dist",                   // Compiled JS output
+    "strict": true,                       // Strict type checking
+    "esModuleInterop": true,              // Allow default imports from CJS modules
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src"]
+  "include": ["src/**/*", "test.js"],
+  "exclude": ["node_modules", "dist"]
 }
