@@ -30,7 +30,6 @@ export interface UserOutput {
   avatar: Avatar | null;
   avatar_decoration?: unknown;
   badges: string[];
-  premium_type: string;
   accent_color?: number | null;
   global_name?: string | null;
   banner?: Banner | null;
@@ -39,13 +38,6 @@ export interface UserOutput {
 }
 
 const userCache = new NodeCache({ stdTTL: 3600, checkperiod: 120 });
-
-const premiumMap: Record<number, string> = {
-  0: "None",
-  1: "Nitro Classic",
-  2: "Nitro",
-  3: "Nitro Basic",
-};
 
 export async function getUser(
   userId: string,
@@ -110,19 +102,18 @@ export async function getUser(
         ? {
             id: json.avatar,
             link: avatarLink,
-            is_animated: json.avatar?.startsWith("a_") ?? false,
+            is_animated: json.avatar?.startsWith("a_") ? true : false,
           }
         : null,
       avatar_decoration: json.avatar_decoration_data,
       badges: publicFlags,
-      premium_type: premiumMap[Number(json.premium_type)] ?? "None",
       accent_color: json.accent_color ?? null,
       global_name: json.global_name ?? null,
       banner: json.banner
         ? {
             id: json.banner,
             link: bannerLink,
-            is_animated: json.banner?.startsWith("a_") ?? false,
+            is_animated: json.banner?.startsWith("a_") ? true : false,
             color: json.banner_color ?? null,
           }
         : null,
