@@ -25,12 +25,22 @@ export const getGuild = async (
   if (cachedGuild) return cachedGuild;
 
   try {
-    const response = await fetch(
+    const endpoints = [
       `https://canary.discord.com/api/v10/guilds/${guildId}/widget.json`,
-      { headers: { "Content-Type": "application/json" } }
-    );
+      `https://discord.com/api/v10/guilds/${guildId}/widget.json`,
+    ];
 
-    const json: any = await response.json();
+    const fetchWithCheck = (url: string) =>
+      fetch(url, { headers: { "Content-Type": "application/json" } }).then(
+        async (res) => {
+          if (!res.ok) {
+            throw new Error(`Failed at ${url} (${res.status})`);
+          }
+          return res.json();
+        }
+      );
+
+    const json: any = await Promise.any(endpoints.map(fetchWithCheck));
 
     if (json.code === 50004) {
       throw new Error(

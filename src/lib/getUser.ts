@@ -62,20 +62,32 @@ export async function getUser(
   if (cachedUser) return cachedUser;
 
   try {
-    const response = await fetch(
+    const token = accessToken ?? process.env.TOKEN;
+    if (!token) throw new Error("Missing bot token");
+
+    const endpoints = [
       `https://canary.discord.com/api/v10/users/${userId}`,
-      {
+      `https://discord.com/api/v10/users/${userId}`,
+    ];
+
+    const fetchWithCheck = (url: string) =>
+      fetch(url, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bot ${accessToken ?? process.env.TOKEN}`,
+          Authorization: `Bot ${token}`,
         },
-      }
-    );
+      }).then(async (res) => {
+        if (!res.ok) {
+          throw new Error(`Failed at ${url} (${res.status})`);
+        }
+        return res.json();
+      });
 
-    const json: any = await response.json();
+    const json: any = await Promise.any(endpoints.map(fetchWithCheck));
 
-    if (json.code === 10013)
+    if (json.code === 10013) {
       throw new Error(`The user ${userId} does not exist or is unavailable.`);
+    }
 
     const publicFlags: string[] = [];
     USER_FLAGS.forEach((flag: Flag) => {
@@ -85,11 +97,9 @@ export async function getUser(
     const avatarLink = json.avatar
       ? `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}?size=480`
       : null;
-
     const bannerLink = json.banner
       ? `https://cdn.discordapp.com/banners/${json.id}/${json.banner}?size=480`
       : null;
-
     const createdDate = snowflakeToDate(json.id);
 
     const output: UserOutput = {
